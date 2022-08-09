@@ -13,10 +13,10 @@ namespace MoviesWebApp.ViewModels
         [Required, StringLength(2500)]
         public string Storyline { get; set; }
         [Display(Name = "Select Poster")]
-        public byte[] Poster { get; set; }
+        public byte[]? Poster { get; set; }
         [Display(Name = "Genre")]
         public byte GenreId { get; set; }
-        public IEnumerable<Genre> Genres{ get; set; }
+        public IEnumerable<Genre>? Genres{ get; set; }
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MoviesWebApp.Models;
+using MoviesWebApp.ViewModels;
 
 namespace MoviesWebApp.Controllers
 {
@@ -26,6 +27,62 @@ namespace MoviesWebApp.Controllers
                 Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync()
             };
             return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(MovieFormViewModel model)
+        {
+            var files = Request.Form.Files;
+            if (!files.Any())
+            {
+                model.Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync();
+                ModelState.AddModelError("Poster", "Please, select movie poster!");
+                return View(model);
+            }
+
+            var poster = files.FirstOrDefault();
+            var allowedExtenstions = new List<string> { ".jpg", ".png" };
+
+            if (!allowedExtenstions.Contains(Path.GetExtension(poster.FileName).ToLower()))
+            {
+                model.Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync();
+                ModelState.AddModelError("Poster", "only .PNG, .JPG Images are allowed!");
+                return View(model);
+            }
+
+            if (!ModelState.IsValid)
+            {
+                model.Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync();
+                return View(model);
+            }
+
+            if(poster.Length > 1048576)
+            {
+                model.Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync();
+                ModelState.AddModelError("Poster", "Poster can be more than one 1 MB!");
+                return View(model);
+
+            }
+
+            //convert image into byte array
+            using var dataStream = new MemoryStream();
+            await poster.CopyToAsync(dataStream);
+
+            var movie = new Movie
+            {
+                Title = model.Title,
+                GenreId = model.GenreId,
+                Year = model.Year,
+                Rate = model.Rate,
+                Storyline = model.Storyline,
+                Poster = dataStream.ToArray()
+            };
+
+            _context.Movies.Add(movie);
+            _context.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
