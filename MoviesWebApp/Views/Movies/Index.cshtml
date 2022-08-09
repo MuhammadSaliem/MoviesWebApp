@@ -4,14 +4,14 @@
     ViewData["Title"] = "Movies";
 }
 
-<h1><i class="bi bi-film"></i>Movies</h1>
+<h1><i class="bi bi-film"></i> Movies</h1>
 
-<a class="btn btn-primary" action="Create">Add Movie</a>
+<a class="btn btn-primary" action="Create"><i class="bi bi-plus-circle"></i> Add Movie</a>
 
 @if(!Model.Any())
 {
     <div class="alert alert-warning" role="alert">
-        No movies found!
+        <i class="bi bi-exclamation-triangle"></i> No movies found!
     </div>
 }
 else
