@@ -18,5 +18,14 @@ namespace MoviesWebApp.Controllers
             var movies = await _context.Movies.ToListAsync();
             return View(movies);
         }
+
+        public async Task<IActionResult> Create()
+        {
+            var viewModel = new ViewModels.MovieFormViewModel()
+            {
+                Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync()
+            };
+            return View(viewModel);
+        }
     }
 }
