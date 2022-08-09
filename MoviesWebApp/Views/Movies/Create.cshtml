@@ -63,6 +63,7 @@
     @{ await Html.RenderPartialAsync("_validationScriptsPartial");}
     <script>
         $(document).ready(function(){
+            //When user select image view it 
             $("#Poster").on('change', function(){
                 var selecteFile= $(this).val().split('\\').pop();
 
@@ -72,7 +73,16 @@
                 posterContainer.removeClass('d-none');
                 posterContainer.find('img').attr('src', image);
             });
+
+            //Add datepicker to Year input
+            $("#Year").datepicker({
+                format: 'yyyy',
+                viewMode: 'years',
+                minViewMode: 'years',
+                autoclose: true, //Close the datapicker after user selected a value
+                startDate: new Date('1950-01-01'),
+                endDate: new Date()
+            });
         });
-    
     </script>
 }
