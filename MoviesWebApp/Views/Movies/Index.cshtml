@@ -31,12 +31,25 @@ else
                                 <h5 class="card-title">@movie.Title (@movie.Year)</h5>
                                 <p class="card-text">@(movie.Storyline.Length > 500 ? $"{movie.Storyline.Substring(0, 500)} ..." : movie.Storyline)</p> @*bootstrap text-justify removed from bootstrap 5 and its good practice not to use it*@
                             </div>
-                            <div>
-                                <p class="card-text">
+                            <div class="d-flex justify-content-between">
+                                <p class="card-text mb-0 mt-2">
                                     <i class="bi bi-star-fill text-warning"></i>
-                                    <small class="text-muted">@movie.Rate</small>
+                                    <small class="text-muted">@movie.Rate.ToString("0.0")</small> @*view the rate in format f.f e.g. 9.0*@
                                 </p>
-
+                                <div>
+                                    <a asp-action="Details" asp-route-id="@movie.MovieId" class="btn btn-outline-secondary">
+                                        <i class="bi bi-camera-reels"></i>
+                                        Details
+                                    </a>
+                                    <a asp-action="Edit" asp-route-id="@movie.MovieId" class="btn btn-outline-primary">
+                                        <i class="bi bi-pencil"></i>
+                                        Edit
+                                    </a>
+                                    <a asp-action="Delete" asp-route-id="@movie.MovieId" class="btn btn-danger">
+                                        <i class="bi bi-trash"></i>
+                                        Delete
+                                    </a>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -39,5 +39,13 @@ input[type=number]{
 }
 
 .poster {
-    min-height:200px;
+    min-height: 236px;
+    background-position: center;
+    background-size: 100%;
+    transition: all 0.5s ease-in-out;
+}
+
+.poster:hover {
+    background-size: 125%;
+    transition: all 0.5s ease-in-out;
 }
