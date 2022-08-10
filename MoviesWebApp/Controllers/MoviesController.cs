@@ -26,7 +26,7 @@ namespace MoviesWebApp.Controllers
             {
                 Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync()
             };
-            return View(viewModel);
+            return View("MovieForm", viewModel);
         }
 
         [HttpPost]
@@ -48,7 +48,7 @@ namespace MoviesWebApp.Controllers
             {
                 model.Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync();
                 ModelState.AddModelError("Poster", "only .PNG, .JPG Images are allowed!");
-                return View(model);
+                return View("MovieForm", model);
             }
 
             if (!ModelState.IsValid)
@@ -83,6 +83,32 @@ namespace MoviesWebApp.Controllers
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+                return BadRequest();
+
+            var movie = await _context.Movies.FindAsync(id);
+
+            if (movie == null)
+                return NotFound();
+
+            var viewModel = new ViewModels.MovieFormViewModel()
+            {
+                Id = movie.MovieId,
+                Title = movie.Title,
+                GenreId=movie.GenreId,
+                Year = movie.Year,
+                Rate = movie.Rate,
+                Storyline= movie.Storyline,
+                Poster= movie.Poster,
+                Genres = await _context.Genres.OrderBy(x => x.Name).ToListAsync()
+            };
+
+            return View("MovieForm", viewModel);
         }
     }
 }

@@ -5,6 +5,7 @@ namespace MoviesWebApp.ViewModels
 {
     public class MovieFormViewModel
     {
+        public int? Id { get; set; }
         [Required, StringLength(250)]
         public string Title { get; set; }
         public int Year { get; set; }
@@ -17,6 +18,5 @@ namespace MoviesWebApp.ViewModels
         [Display(Name = "Genre")]
         public byte GenreId { get; set; }
         public IEnumerable<Genre>? Genres{ get; set; }
-
     }
 }
