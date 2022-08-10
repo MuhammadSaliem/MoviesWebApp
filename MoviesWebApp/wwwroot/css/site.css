@@ -37,3 +37,7 @@ input[type=number]{
 .field-validation-error{
     font-size; 14px;
 }
+
+.poster {
+    min-height:200px;
+}
