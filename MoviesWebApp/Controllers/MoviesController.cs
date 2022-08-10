@@ -13,7 +13,6 @@ namespace MoviesWebApp.Controllers
             _context = context;
         }
 
-
         public async Task<IActionResult> Index()
         {
             var movies = await _context.Movies.ToListAsync();
