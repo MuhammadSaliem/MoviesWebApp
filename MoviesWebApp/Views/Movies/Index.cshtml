@@ -64,26 +64,46 @@ else
 
 @section Scripts {
 <script>
-    $(document).ready(function(){
-        $('.js-delete').on('click', function(){
+        $(document).ready(function(){
+            $('.js-delete').on('click', function(){
 
-        var btn = $(this);
+            var btn = $(this);
 
-        var result = confirm('Are you want to delete that movie?');
 
-        if(result) {
-            $.ajax({
-                url: '/movies/delete/' + btn.data('id'),
-                success: function(){
-                    btn.parents('.col-12').fadeOut();
-                    toastr.success('Movie deleted successfully');
-                },
-                error: function (){
-                        toastr.error('Something went wrong!');
-                    }
-            });
-        }
-        });
+            bootbox.confirm({
+        title: "Remove a movie?",
+        message: "You are about to remove a movie!",
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> Cancel'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Confirm'
+            }
+        },
+         callback: function (result) {
+                            if(result) {
+                $.ajax({
+                    url: '/movies/delete/' + btn.data('id'),
+                    success: function(){
+                        var movieContainer = btn.parents('.col-12');
+                        movieContainer.addClass('animate__animated animate__zoomOut');
+                        setTimeout(function(){
+                            movieContainer.remove();
+
+                        }, 1000);
+                        toastr.success('Movie deleted successfully');
+                    },
+                    error: function (){
+                            toastr.error('Something went wrong!');
+                        }
+                });
+            }
+            }
     });
+
+
+            });
+        });
 </script>
 }
